@@ -7,8 +7,8 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ModusAutocompleteOption } from "./components/modus-autocomplete/modus-autocomplete";
 import { Crumb } from "./components/modus-breadcrumb/modus-breadcrumb";
-import { ModusDataTableColumn, ModusDataTableDisplayOptions, ModusDataTableSortingState } from "./components/modus-data-table/models";
-import { Column } from "@tanstack/table-core";
+import { ModusDataTableColumn, ModusDataTableDisplayOptions, ModusDataTablePanelOptions, ModusDataTableSortingState } from "./components/modus-data-table/models";
+import { Column, Table } from "@tanstack/table-core";
 import { DateInputEventData, DateInputType } from "./components/modus-date-picker/utils/modus-date-picker.types";
 import { ModusNavbarApp } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
 import { ModusNavbarProfileMenuLink } from "./components/modus-navbar/profile-menu/modus-navbar-profile-menu";
@@ -298,8 +298,16 @@ export namespace Components {
           * (Optional) To enable row hover in table.
          */
         "hover": boolean;
+        /**
+          * (Optional) To display expanded rows.
+         */
+        "isExpand": boolean;
         "pageSizeList": number[];
         "pagination": boolean;
+        /**
+          * (Optional) To display a panel options, which allows access to table operations like hiding columns.
+         */
+        "panelOptions": ModusDataTablePanelOptions | null;
         /**
           * (Optional) To display sort icon on hover.
          */
@@ -312,6 +320,16 @@ export namespace Components {
           * (Optional) To display summary row.
          */
         "summaryRow": boolean;
+    }
+    interface ModusDataTablePanel {
+        /**
+          * (Optional) To display a panel options, which allows access to table operations like hiding columns.
+         */
+        "panelOptions": ModusDataTablePanelOptions;
+        /**
+          * Table data.
+         */
+        "table": Table<unknown>;
     }
     interface ModusDateInput {
         /**
@@ -694,6 +712,8 @@ export namespace Components {
         "ariaLabel": string | null;
         "maxPage": number;
         "minPage": number;
+        "nextPageButtonText"?: string;
+        "prevPageButtonText"?: string;
         "size": 'large' | 'medium' | 'small';
     }
     interface ModusProgressBar {
@@ -1382,6 +1402,12 @@ declare global {
         prototype: HTMLModusDataTableElement;
         new (): HTMLModusDataTableElement;
     };
+    interface HTMLModusDataTablePanelElement extends Components.ModusDataTablePanel, HTMLStencilElement {
+    }
+    var HTMLModusDataTablePanelElement: {
+        prototype: HTMLModusDataTablePanelElement;
+        new (): HTMLModusDataTablePanelElement;
+    };
     interface HTMLModusDateInputElement extends Components.ModusDateInput, HTMLStencilElement {
     }
     var HTMLModusDateInputElement: {
@@ -1580,6 +1606,7 @@ declare global {
         "modus-checkbox": HTMLModusCheckboxElement;
         "modus-chip": HTMLModusChipElement;
         "modus-data-table": HTMLModusDataTableElement;
+        "modus-data-table-panel": HTMLModusDataTablePanelElement;
         "modus-date-input": HTMLModusDateInputElement;
         "modus-date-picker": HTMLModusDatePickerElement;
         "modus-dropdown": HTMLModusDropdownElement;
@@ -1926,11 +1953,19 @@ declare namespace LocalJSX {
          */
         "hover"?: boolean;
         /**
+          * (Optional) To display expanded rows.
+         */
+        "isExpand"?: boolean;
+        /**
           * Emits event on sort change
          */
         "onSortChange"?: (event: ModusDataTableCustomEvent<ModusDataTableSortingState>) => void;
         "pageSizeList"?: number[];
         "pagination"?: boolean;
+        /**
+          * (Optional) To display a panel options, which allows access to table operations like hiding columns.
+         */
+        "panelOptions"?: ModusDataTablePanelOptions | null;
         /**
           * (Optional) To display sort icon on hover.
          */
@@ -1943,6 +1978,16 @@ declare namespace LocalJSX {
           * (Optional) To display summary row.
          */
         "summaryRow"?: boolean;
+    }
+    interface ModusDataTablePanel {
+        /**
+          * (Optional) To display a panel options, which allows access to table operations like hiding columns.
+         */
+        "panelOptions"?: ModusDataTablePanelOptions;
+        /**
+          * Table data.
+         */
+        "table"?: Table<unknown>;
     }
     interface ModusDateInput {
         /**
@@ -2385,10 +2430,12 @@ declare namespace LocalJSX {
         "ariaLabel"?: string | null;
         "maxPage"?: number;
         "minPage"?: number;
+        "nextPageButtonText"?: string;
         /**
           * An event that fires on page change.
          */
         "onPageChange"?: (event: ModusPaginationCustomEvent<number>) => void;
+        "prevPageButtonText"?: string;
         "size"?: 'large' | 'medium' | 'small';
     }
     interface ModusProgressBar {
@@ -2976,6 +3023,7 @@ declare namespace LocalJSX {
         "modus-checkbox": ModusCheckbox;
         "modus-chip": ModusChip;
         "modus-data-table": ModusDataTable;
+        "modus-data-table-panel": ModusDataTablePanel;
         "modus-date-input": ModusDateInput;
         "modus-date-picker": ModusDatePicker;
         "modus-dropdown": ModusDropdown;
@@ -3024,6 +3072,7 @@ declare module "@stencil/core" {
             "modus-checkbox": LocalJSX.ModusCheckbox & JSXBase.HTMLAttributes<HTMLModusCheckboxElement>;
             "modus-chip": LocalJSX.ModusChip & JSXBase.HTMLAttributes<HTMLModusChipElement>;
             "modus-data-table": LocalJSX.ModusDataTable & JSXBase.HTMLAttributes<HTMLModusDataTableElement>;
+            "modus-data-table-panel": LocalJSX.ModusDataTablePanel & JSXBase.HTMLAttributes<HTMLModusDataTablePanelElement>;
             "modus-date-input": LocalJSX.ModusDateInput & JSXBase.HTMLAttributes<HTMLModusDateInputElement>;
             "modus-date-picker": LocalJSX.ModusDatePicker & JSXBase.HTMLAttributes<HTMLModusDatePickerElement>;
             "modus-dropdown": LocalJSX.ModusDropdown & JSXBase.HTMLAttributes<HTMLModusDropdownElement>;

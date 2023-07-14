@@ -92,6 +92,16 @@ table {
       td {
         border: $rem-1px $modus-table-header-border-color solid;
 
+        .expand {
+          position: relative;
+          top: 7px;
+          cursor: pointer;
+
+          svg {
+            fill: $modus-table-row-expand-collaps-icon;
+          }
+        }
+
         &.text-align-right {
           text-align: right;
         }

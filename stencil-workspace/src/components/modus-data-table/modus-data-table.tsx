@@ -15,6 +15,7 @@ import {
   ColumnDef,
   ColumnSizingInfoState,
   ColumnSizingState,
+  ExpandedState,
   HeaderGroup,
   PaginationState,
   Table,
@@ -22,20 +23,21 @@ import {
   Updater,
   createTable,
   getCoreRowModel,
+  getExpandedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
 } from '@tanstack/table-core';
+import { DefaultPageSizes } from './constants/constants';
 import {
   ModusDataTableColumn,
   ModusDataTableDisplayOptions,
-  ModusDataTableSortingState,
   ModusDataTablePanelOptions,
+  ModusDataTableSortingState,
 } from './models';
+import { ModusDataTableHeader } from './parts/header/modus-data-table-header';
 import { ModusDataTableCell } from './parts/modus-data-table-cell';
 import { ModusDataTablePagination } from './parts/modus-data-table-pagination';
 import { ModusDataTableSummaryRow } from './parts/modus-data-table-summary-row';
-import { DefaultPageSizes } from './constants/constants';
-import { ModusDataTableHeader } from './parts/header/modus-data-table-header';
 
 /**
  * @slot customFooter - Slot for custom footer.
@@ -93,6 +95,9 @@ export class ModusDataTable {
   /** (Optional) To display a panel options, which allows access to table operations like hiding columns. */
   @Prop() panelOptions: ModusDataTablePanelOptions | null = null;
 
+  /** (Optional) To display expanded rows. */
+  @Prop() isExpand = false;
+
   /** (Optional) To control display options of table. */
   @Prop() displayOptions?: ModusDataTableDisplayOptions = {
     borderless: false,
@@ -111,6 +116,7 @@ export class ModusDataTable {
     {} as ColumnSizingInfoState;
 
   @State() sorting: ModusDataTableSortingState = [];
+  @State() expanded: ExpandedState;
   @State() table: Table<unknown>;
   @State() paginationState: PaginationState = {
     pageIndex: 0,
@@ -146,9 +152,10 @@ export class ModusDataTable {
       columns: (this.columns as ColumnDef<unknown>[]) ?? [],
       state: {
         columnPinning: {},
-        sorting: this.sorting,
         columnSizing: {},
         columnSizingInfo: {} as ColumnSizingInfoState,
+        expanded: this.expanded,
+        sorting: this.sorting,
       },
       enableSorting: this.sort,
       columnResizeMode: 'onChange',
@@ -161,10 +168,14 @@ export class ModusDataTable {
       getCoreRowModel: getCoreRowModel(),
       getPaginationRowModel: this.pagination && getPaginationRowModel(),
       getSortedRowModel: getSortedRowModel(),
+      onExpandedChange: (updater: Updater<ExpandedState>) =>
+        this.updatingState(updater, 'expanded'),
       onColumnSizingChange: (updater: Updater<ColumnSizingState>) =>
         this.updatingState(updater, 'columnSizing'),
       onColumnSizingInfoChange: (updater: Updater<ColumnSizingInfoState>) =>
         this.updatingState(updater, 'columnSizingInfo'),
+      getExpandedRowModel: getExpandedRowModel(),
+      getSubRows: (row) => row['subRows'],
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       onStateChange: () => {},
       renderFallbackValue: null,
@@ -269,8 +280,14 @@ export class ModusDataTable {
             {this.table.getRowModel()?.rows.map((row) => {
               return (
                 <tr key={row.id} class={this.hover && 'enable-hover'}>
-                  {row.getAllCells()?.map((cell) => {
-                    return <ModusDataTableCell cell={cell} />;
+                  {row.getAllCells()?.map((cell, cellIndex) => {
+                    return (
+                      <ModusDataTableCell
+                        cell={cell}
+                        row={row}
+                        cellIndex={cellIndex}
+                      />
+                    );
                   })}
                 </tr>
               );
