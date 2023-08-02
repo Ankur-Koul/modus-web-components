@@ -139,6 +139,13 @@ export class ModusTable {
   /** (Optional) To display a horizontal scrollbar when the width is exceeded. */
   @Prop() maxWidth: string;
 
+  /** (Optional) To display a horizontal scrollbar when the width is exceeded. */
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  @Prop() customSortFunction: any;
+  @Watch('customSortFunction') temp() {
+    console.log(this.customSortFunction);
+  }
+
   /** Emits event on sort change */
   @Event() sortChange: EventEmitter<ModusTableSortingState>;
 
@@ -266,6 +273,10 @@ export class ModusTable {
    * Creates a table with some set of options.
    */
   initializeTable(): void {
+    const aa = {
+      myCustomSorting: (rowA: any, rowB: any, columnId: any): number =>
+        rowA.getValue(columnId).value < rowB.getValue(columnId).value ? 1 : -1,
+    };
     const options: TableOptionsResolved<unknown> = {
       data: this.data ?? [],
       columns: (this.columns as ColumnDef<unknown>[]) ?? [],
@@ -279,6 +290,8 @@ export class ModusTable {
         sorting: this.sorting,
       },
       enableSorting: this.sort,
+      // sortingFns: { customSortFunction: this.customSortFunction(rowA, rowB, columnId) },
+      sortingFns: aa,
       columnResizeMode: 'onChange',
       enableColumnResizing: this.columnResize,
       enableHiding: !!this.panelOptions?.columnsVisibility,

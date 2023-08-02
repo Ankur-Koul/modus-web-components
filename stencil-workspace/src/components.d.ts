@@ -936,6 +936,10 @@ export namespace Components {
          */
         "columns": ModusTableColumn<unknown>[];
         /**
+          * (Optional) To display a horizontal scrollbar when the width is exceeded.
+         */
+        "customSortFunction": any;
+        /**
           * (Required) To display data in the table.
          */
         "data": unknown[];
@@ -2840,6 +2844,10 @@ declare namespace LocalJSX {
           * (Required) To display headers in the table.
          */
         "columns": ModusTableColumn<unknown>[];
+        /**
+          * (Optional) To display a horizontal scrollbar when the width is exceeded.
+         */
+        "customSortFunction"?: any;
         /**
           * (Required) To display data in the table.
          */

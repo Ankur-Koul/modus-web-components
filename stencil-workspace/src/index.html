@@ -18,5 +18,388 @@
 
 <body>
   <!-- Test components here -->
+  <modus-table hover="true" sort="true" summary-row="true"></modus-table>
 </body>
+<script>
+  const modusDataTable = document.querySelector('modus-table');
+
+  modusDataTable.displayOptions = {
+    borderless: false,
+    cellBorderless: false,
+  };
+  modusDataTable.rowsExpandable = true;
+  // modusDataTable.fullWidth = true;
+  modusDataTable.summaryRow = true;
+  modusDataTable.columnReorder = true;
+  modusDataTable.showTablePanel = true;
+  modusDataTable.columnResize = true;
+  modusDataTable.maxWidth = '700px';
+  modusDataTable.panelOptions = {
+    columnsVisibility: {
+      title: '',
+      requiredColumns: ['age', 'visits'],
+    },
+  };
+  // function customSortFunction(rowA, rowB, columnId) {
+  //   console.log('123')
+  //   console.log(rowA)
+  //   console.log(rowB)
+  //   return rowA?.getValue(columnId).value < rowB?.getValue(columnId).value ? 1 : -1;
+  // }
+  modusDataTable.customSortFunction = {
+    myCustomSorting: (rowA, rowB, columnId) =>
+      rowA.getValue(columnId).value < rowB.getValue(columnId).value ? 1 : -1,
+  }
+
+  modusDataTable.data = [
+    {
+      firstName: 'Frederick',
+      lastName: 'Cummerata',
+      age: 43,
+      visits: 970,
+      progress: 42,
+      status: 'complicated',
+      subRows: [
+        {
+          firstName: 'Emile',
+          lastName: 'Koelpin',
+          age: 22,
+          visits: 924,
+          progress: 75,
+          status: 'single',
+        },
+        {
+          firstName: 'Brandt',
+          lastName: 'Stark',
+          age: 9,
+          visits: 850,
+          progress: 22,
+          status: 'single',
+        },
+        {
+          firstName: 'Leola',
+          lastName: 'Reichel',
+          age: 12,
+          visits: 496,
+          progress: 72,
+          status: 'relationship',
+          subRows: [
+            {
+              firstName: 'Angelica',
+              lastName: 'Kautzer',
+              age: 25,
+              visits: 96,
+              progress: 81,
+              status: 'complicated',
+            },
+            {
+              firstName: 'Amari',
+              lastName: 'Walter',
+              age: 18,
+              visits: 559,
+              progress: 45,
+              status: 'complicated',
+            },
+          ],
+        },
+        {
+          firstName: 'Sabryna',
+          lastName: 'Nolan',
+          age: 9,
+          visits: 596,
+          progress: 61,
+          status: 'single',
+        },
+      ],
+    },
+    {
+      firstName: 'Moriah',
+      lastName: 'Smith',
+      age: 13,
+      visits: 459,
+      progress: 42,
+      status: 'single',
+      subRows: [
+        {
+          firstName: 'Freddie',
+          lastName: 'Bernhard',
+          age: 38,
+          visits: 519,
+          progress: 27,
+          status: 'complicated',
+        },
+        {
+          firstName: 'Meagan',
+          lastName: 'Brekke',
+          age: 23,
+          visits: 344,
+          progress: 8,
+          status: 'relationship',
+        },
+        {
+          firstName: 'Alfreda',
+          lastName: 'Fadel',
+          age: 19,
+          visits: 555,
+          progress: 72,
+          status: 'relationship',
+          subRows: [
+            {
+              firstName: 'Monserrate',
+              lastName: 'Smitham',
+              age: 32,
+              visits: 438,
+              progress: 58,
+              status: 'single',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      firstName: 'Frederick',
+      lastName: 'Cummerata',
+      age: 33,
+      visits: 970,
+      progress: 42,
+      status: 'complicated',
+      subRows: [
+        {
+          firstName: 'Emile',
+          lastName: 'Koelpin',
+          age: 22,
+          visits: 924,
+          progress: 75,
+          status: 'single',
+        },
+        {
+          firstName: 'Brandt',
+          lastName: 'Stark',
+          age: 9,
+          visits: 850,
+          progress: 22,
+          status: 'single',
+        },
+        {
+          firstName: 'Leola',
+          lastName: 'Reichel',
+          age: 12,
+          visits: 496,
+          progress: 72,
+          status: 'relationship',
+          subRows: [
+            {
+              firstName: 'Angelica',
+              lastName: 'Kautzer',
+              age: 25,
+              visits: 96,
+              progress: 81,
+              status: 'complicated',
+            },
+            {
+              firstName: 'Amari',
+              lastName: 'Walter',
+              age: 18,
+              visits: 559,
+              progress: 45,
+              status: 'complicated',
+            },
+          ],
+        },
+        {
+          firstName: 'Sabryna',
+          lastName: 'Nolan',
+          age: 9,
+          visits: 596,
+          progress: 61,
+          status: 'single',
+        },
+      ],
+    },
+    {
+      firstName: 'Moriah',
+      lastName: 'Smith',
+      age: 13,
+      visits: 459,
+      progress: 42,
+      status: 'single',
+      subRows: [
+        {
+          firstName: 'Freddie',
+          lastName: 'Bernhard',
+          age: 38,
+          visits: 519,
+          progress: 27,
+          status: 'complicated',
+        },
+        {
+          firstName: 'Meagan',
+          lastName: 'Brekke',
+          age: 23,
+          visits: 344,
+          progress: 8,
+          status: 'relationship',
+        },
+        {
+          firstName: 'Alfreda',
+          lastName: 'Fadel',
+          age: 19,
+          visits: 555,
+          progress: 72,
+          status: 'relationship',
+          subRows: [
+            {
+              firstName: 'Monserrate',
+              lastName: 'Smitham',
+              age: 32,
+              visits: 438,
+              progress: 58,
+              status: 'single',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      firstName: 'Frederick',
+      lastName: 'Cummerata',
+      age: 53,
+      visits: 970,
+      progress: 42,
+      status: 'complicated',
+      subRows: [
+        {
+          firstName: 'Emile',
+          lastName: 'Koelpin',
+          age: 22,
+          visits: 924,
+          progress: 75,
+          status: 'single',
+        },
+        {
+          firstName: 'Brandt',
+          lastName: 'Stark',
+          age: 9,
+          visits: 850,
+          progress: 22,
+          status: 'single',
+        },
+        {
+          firstName: 'Leola',
+          lastName: 'Reichel',
+          age: 12,
+          visits: 496,
+          progress: 72,
+          status: 'relationship',
+          subRows: [
+            {
+              firstName: 'Angelica',
+              lastName: 'Kautzer',
+              age: 25,
+              visits: 96,
+              progress: 81,
+              status: 'complicated',
+            },
+            {
+              firstName: 'Amari',
+              lastName: 'Walter',
+              age: 18,
+              visits: 559,
+              progress: 45,
+              status: 'complicated',
+            },
+          ],
+        },
+        {
+          firstName: 'Sabryna',
+          lastName: 'Nolan',
+          age: 9,
+          visits: 596,
+          progress: 61,
+          status: 'single',
+        },
+      ],
+    },
+    {
+      firstName: 'Moriah',
+      lastName: 'Smith',
+      age: 13,
+      visits: 459,
+      progress: 42,
+      status: 'single',
+      subRows: [
+        {
+          firstName: 'Freddie',
+          lastName: 'Bernhard',
+          age: 38,
+          visits: 519,
+          progress: 27,
+          status: 'complicated',
+        },
+        {
+          firstName: 'Meagan',
+          lastName: 'Brekke',
+          age: 23,
+          visits: 344,
+          progress: 8,
+          status: 'relationship',
+        },
+        {
+          firstName: 'Alfreda',
+          lastName: 'Fadel',
+          age: 19,
+          visits: 555,
+          progress: 72,
+          status: 'relationship',
+          subRows: [
+            {
+              firstName: 'Monserrate',
+              lastName: 'Smitham',
+              age: 32,
+              visits: 438,
+              progress: 58,
+              status: 'single',
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
+  modusDataTable.columns = [
+    {
+      header: 'First Name',
+      accessorKey: 'firstName',
+      id: 'first-name',
+      dataType: 'text',
+      footer: 'Total',
+      minSize: 150,
+    },
+    {
+      header: 'Last Name',
+      accessorKey: 'lastName',
+      id: 'last-name',
+      dataType: 'text',
+      minSize: 150,
+    },
+    { header: 'Age', accessorKey: 'age', id: 'age', dataType: 'integer', minSize: 150, sortingFn: 'customSortFunction' },
+    {
+      header: 'Visits',
+      accessorKey: 'visits',
+      id: 'visits',
+      dataType: 'integer',
+      showTotal: true,
+      minSize: 150,
+    },
+    { header: 'Status', accessorKey: 'status', id: 'status', dataType: 'text', showTotal: true, minSize: 150 },
+    {
+      header: 'Profile Progress',
+      accessorKey: 'progress',
+      id: 'progress',
+      dataType: 'integer',
+      minSize: 150,
+    },
+  ];
+</script>
+
 </html>
